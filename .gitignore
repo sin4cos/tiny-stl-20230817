@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Editors
+.vscode
+.DS_Store
+
+# Build directory
+build/
+out/
