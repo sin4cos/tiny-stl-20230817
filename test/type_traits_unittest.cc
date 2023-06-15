@@ -10,7 +10,6 @@ TEST(TypeTraitsTest, IntegralConstantTest) {
   static_assert(two_t::value * 2 == four_t::value, "2*2 != 4");
 }
 
-
 TEST(TypeTraitsTest, IsSameTest) {
   static_assert(sun::is_same<float, int32_t>::value == false,
                 "float type is not same as int32_t type");
@@ -28,4 +27,28 @@ TEST(TypeTraitsTest, IsSameTest) {
                 "volatile-qualified type T is not same as non-volatile T");
   static_assert(sun::is_same<const int, volatile int>::value == false,
                 "volatile-qualified type T is not same as const-qualified T");
+}
+
+TEST(TypeTraitsTest, RemoveReferenceTest) {
+  static_assert(sun::is_same<int, sun::remove_reference<int&>::type>::value,
+                "");
+  static_assert(sun::is_same<int, sun::remove_reference<int&&>::type>::value,
+                "");
+  static_assert(not sun::is_same<int, int&>::value, "");
+  static_assert(not sun::is_same<int, int&&>::value, "");
+  static_assert(
+      sun::is_same<const int, sun::remove_reference<const int&>::type>::value,
+      "");
+}
+
+TEST(TypeTraitsTest, IsLvalueReferenceTest) {
+  static_assert(not sun::is_lvalue_reference<int>::value, "");
+  static_assert(sun::is_lvalue_reference<int&>::value, "");
+  static_assert(not sun::is_lvalue_reference<int&&>::value, "");
+}
+
+TEST(TypeTraitsTest, IsRvalueReferenceTest) {
+  static_assert(not sun::is_rvalue_reference<int>::value, "");
+  static_assert(not sun::is_rvalue_reference<int&>::value, "");
+  static_assert(sun::is_rvalue_reference<int&&>::value, "");
 }
