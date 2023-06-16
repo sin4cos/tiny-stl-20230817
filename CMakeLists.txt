@@ -24,7 +24,11 @@ if(TINY_STL_BUILD_TESTS)
   add_executable(utility_test "test/utility_unittest.cc")
   target_link_libraries(utility_test gmock gtest gtest_main)
 
+  add_executable(iterator_test "test/iterator_unittest.cc")
+  target_link_libraries(iterator_test gmock gtest gtest_main)
+
   add_test(NAME "type_traits_test" COMMAND "type_traits_test")
   add_test(NAME "memory_test" COMMAND "memory_test")
   add_test(NAME "utility_test" COMMAND "utility_test")
+  add_test(NAME "iterator_test" COMMAND "iterator_test")
 endif(TINY_STL_BUILD_TESTS)

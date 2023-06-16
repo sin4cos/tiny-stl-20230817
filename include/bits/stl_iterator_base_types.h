@@ -20,7 +20,7 @@ struct forward_iterator_tag : public input_iterator_tag {};
 
 struct bidirectional_iterator_tag : public forward_iterator_tag {};
 
-struct random_access_iterator_rag : public bidirectional_iterator_tag {};
+struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
 
 // @brief iterator 通用的迭代器类
@@ -98,6 +98,13 @@ struct iterator_traits<const _Tp*> {
   typedef const _Tp*                  pointer;
   typedef const _Tp&                  reference;
 };
+
+
+template <typename _Iter>
+inline typename iterator_traits<_Iter>::iterator_category
+__iterator_category(const _Iter&) {
+  return typename iterator_traits<_Iter>::iterator_category();
+}
 
 }  // namespace sun
 

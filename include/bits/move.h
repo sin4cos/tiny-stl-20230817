@@ -35,6 +35,32 @@ forward(typename sun::remove_reference<_Tp>::type&& __t) noexcept {
 }
 
 }  // namespace sun
+
+#define SUN_MOVE(__val) sun::move(__val)
+#define SUN_FORWARD(_Tp, __val) sun::forward<_Tp>(__val)
+#else
+#define SUN_MOVE(__val) (__val)
+#define SUN_FORWARD(_Tp, __val) (__val)
 #endif  // __cplusplus >= 201103L
+
+
+namespace sun {
+
+template <typename _Tp>
+inline void
+swap(_Tp& __a, _Tp& __b) {
+  _Tp __tmp = SUN_MOVE(__a);
+  __a = SUN_MOVE(__b);
+  __b = SUN_MOVE(__tmp);
+}
+
+template <typename _Tp, size_t _Nm>
+inline void
+swap(_Tp (&__a)[_Nm], _Tp (&__b)[_Nm]) {
+  for (size_t __n = 0; __n < _Nm; ++__n)
+    swap(__a[__n], __b[__n]);
+}
+
+}  // namespace sun
 
 #endif  // TINY_STL_BITS_MOVE_H_

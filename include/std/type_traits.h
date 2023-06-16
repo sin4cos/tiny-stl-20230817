@@ -32,7 +32,62 @@ struct is_same : public false_type {};
 template <typename _Tp>
 struct is_same<_Tp, _Tp> : public true_type {};
 
-/* 引用变换 */
+
+// Const-volatile modifications.
+// - remove_const: 移除 const 限定
+// - remove_volatile: 移除 volatile 限定
+// - remove_cv: 移除 const 和 volatile 限定
+// - add_const: 添加 const 限定
+// - add_volatile: 添加 volatile 限定
+// - add_cv: 添加 const 和 volatile 限定
+
+template <typename _Tp>
+struct remove_const {
+  typedef _Tp type;
+};
+
+template <typename _Tp>
+struct remove_const<_Tp const> {
+  typedef _Tp type;
+};
+
+template <typename _Tp>
+struct remove_volatile {
+  typedef _Tp type;
+};
+
+template <typename _Tp>
+struct remove_volatile<_Tp volatile> {
+  typedef _Tp type;
+};
+
+template <typename _Tp>
+struct remove_cv {
+  typedef
+    typename remove_const<typename remove_volatile<_Tp>::type>::type type;
+};
+
+template <typename _Tp>
+struct add_const {
+  typedef _Tp const type;
+};
+
+template <typename _Tp>
+struct add_volatile {
+  typedef _Tp volatile type;
+};
+
+template <typename _Tp>
+struct add_cv {
+  typedef
+    typename add_const<typename add_volatile<_Tp>::type>::type type;
+};
+
+
+// Reference transformations.
+// - remove_reference: 移除引用属性
+// - is_lvalue_reference: 是否为左值引用
+// - is_rvalue_reference: 是否为右值引用
 
 template <typename _Tp>
 struct remove_reference {
@@ -86,7 +141,7 @@ class __has_##_NTYPE##_helper : __sfinae_types {                              \
 };                                                                            \
                                                                               \
 template <typename _Tp>                                                       \
-struct __has_##_NETYPE                                                        \
+struct __has_##_NTYPE                                                         \
     : integral_constant<                                                      \
           bool, __has_##_NTYPE##_helper<typename remove_cv<_Tp>::type>::value>\
  {};
