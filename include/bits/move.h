@@ -34,6 +34,13 @@ forward(typename sun::remove_reference<_Tp>::type&& __t) noexcept {
   return static_cast<_Tp&&>(__t);
 }
 
+template <typename _Tp>
+constexpr typename sun::remove_reference<_Tp>::type&&
+move(_Tp&& __t) noexcept {
+  return static_cast<typename sun::remove_reference<_Tp>::type&&>(__t);
+}
+
+
 }  // namespace sun
 
 #define SUN_MOVE(__val) sun::move(__val)

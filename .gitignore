@@ -35,6 +35,9 @@
 .vscode
 .DS_Store
 
+# Caches
+.cache
+
 # Build directory
 build/
 out/

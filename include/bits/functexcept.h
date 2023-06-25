@@ -5,6 +5,8 @@
 #ifndef TINY_STL_BITS_FUNCTEXCEPT_H_
 #define TINY_STL_BITS_FUNCTEXCEPT_H_
 
+#include <include/bits/c++config.h>
+
 namespace sun {
 
 void

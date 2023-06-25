@@ -29,6 +29,18 @@ TEST(TypeTraitsTest, IsSameTest) {
                 "volatile-qualified type T is not same as const-qualified T");
 }
 
+TEST(TypeTraitsTest, RemoveCVTest) {
+  static_assert(sun::is_same<sun::remove_const<const int>::type, int>::value == true);
+  static_assert(sun::is_same<sun::remove_volatile<volatile int>::type, int>::value == true);
+  static_assert(sun::is_same<sun::remove_cv<const volatile int>::type, int>::value == true);
+}
+
+TEST(TypeTraitsTest, AddCVTest) {
+  static_assert(sun::is_same<sun::add_const<int>::type, const int>::value == true);
+  static_assert(sun::is_same<sun::add_volatile<int>::type, volatile int>::value == true);
+  static_assert(sun::is_same<sun::add_cv<int>::type, const volatile int>::value == true);
+}
+
 TEST(TypeTraitsTest, RemoveReferenceTest) {
   static_assert(sun::is_same<int, sun::remove_reference<int&>::type>::value,
                 "");
